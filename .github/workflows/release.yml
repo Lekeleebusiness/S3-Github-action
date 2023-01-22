@@ -36,7 +36,7 @@ jobs:
           jekyll -v
           
       - name: Clone Bootstrap
-        run: git clone git@github.com:twbs/bootstrap.git
+        run: git clone https://github.com/twbs/bootstrap.git  
     
       - name: Execute shell command
         run: jekyll build
