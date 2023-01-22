@@ -37,10 +37,12 @@ jobs:
           
       - name: Clone Bootstrap
         run: git clone https://github.com/twbs/bootstrap.git  
+        
+      - name: Execute shell command
+        run: jekyll build
           
       - name: Create folder
         run: |
-          jekyll build
           mkdir _gh_pages
           echo "Job: ${{ job.name }} Build: ${{ env.BUILD_NUMBER }}" > _gh_pages/version.txt
           
