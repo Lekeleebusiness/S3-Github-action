@@ -1,5 +1,5 @@
 ---
-name: CI/CD Job 1
+name: CI/CD Job 
 on:
   push:
     branches:
@@ -37,9 +37,6 @@ jobs:
           
       - name: Clone Bootstrap
         run: git clone https://github.com/twbs/bootstrap.git  
-    
-      - name: Execute shell command
-        run: jekyll build
           
       - name: Create folder
         run: |
