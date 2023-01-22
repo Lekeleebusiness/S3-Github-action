@@ -25,10 +25,14 @@ jobs:
           sudo apt-get update
           sudo apt-get install -y build-essential libffi-dev ruby-dev zlib1g-dev liblzma-dev
           
-      - name: set up Ruby
+      - name: Update Ruby
         run: |
           sudo apt-get install -y ruby-full
           ruby -v
+          
+      - name: Install specific version of 'public_suffix'
+        run: |
+          gem install public_suffix -v 4.0.7
           
       - name: Install Jekyll
         run: |
