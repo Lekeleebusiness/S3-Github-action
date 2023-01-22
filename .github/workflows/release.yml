@@ -32,7 +32,7 @@ jobs:
           
       - name: Install specific version of 'public_suffix'
         run: |
-          gem install public_suffix -v 4.0.7
+          sudo gem install public_suffix -v 4.0.7
           
       - name: Install Jekyll
         run: |
