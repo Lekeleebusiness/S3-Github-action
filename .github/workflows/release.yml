@@ -1,5 +1,5 @@
 ---
-name: CI/CD Job
+name: CI/CD Job 1
 on:
   push:
     branches:
