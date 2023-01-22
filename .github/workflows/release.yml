@@ -28,7 +28,7 @@ jobs:
           
       - name: Install Jekyll
         run: |
-          gem install jekyll
+          sudo gem install jekyll
           jekyll -v
     
       - name: Build Jekyll
