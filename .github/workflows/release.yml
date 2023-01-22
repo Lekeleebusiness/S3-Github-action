@@ -20,25 +20,23 @@ jobs:
       - name: Clone repository
         run: git clone https://github.com/twbs/bootstrap.git   
         
-      - name: Install Ruby, RubyGems, and Jekyll
+      - name: Set up Ruby
         run: |
-          sudo apt update
-          sudo apt install ruby-full
-          ruby --version
-          sudo apt install rubygems -y
-          sudo apt-get install ruby-full build-essential zlib1g-dev
-          sudo echo '# Install Ruby Gems to ~/gems' >> ~/.bashrc
-          sudo echo 'export GEM_HOME="$HOME/gems"' >> ~/.bashrc
-          sudo echo 'export PATH="$HOME/gems/bin:$PATH"' >> ~/.bashrc
-          sudo -s
-          sudo source ~/.bashrc
-          exit
+          sudo apt-get update
+          sudo apt-get install -y ruby-full
+          ruby -v
+          
+      - name: Install Jekyll
+        run: |
+          gem install jekyll
+          jekyll -v
     
       - name: Build Jekyll
         run: |
           cd bootstrap
           bundle install
           bundle exec jekyll build
+          
       - name: Create folder
         run: |
           jekyll build
