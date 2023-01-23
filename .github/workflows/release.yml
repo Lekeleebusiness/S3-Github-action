@@ -21,9 +21,10 @@ jobs:
         run: git clone https://github.com/twbs/bootstrap.git
         
       - name: Set up Ruby
-        uses: actions/setup-ruby@v4
-        with:
-          ruby-version: 2.7
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y ruby ruby-dev
+          ruby --version
 
       - name: Install Jekyll and dependencies
         run: |
