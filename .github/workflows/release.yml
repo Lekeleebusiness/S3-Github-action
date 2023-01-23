@@ -20,18 +20,22 @@ jobs:
       - name: Clone repository
         run: git clone https://github.com/twbs/bootstrap.git
         
-      - name: Install Ruby, RubyGems, and Jekyll
+      - name: Set up Ruby
+        uses: actions/setup-ruby@v2
+        with:
+          ruby-version: 2.7
+
+      - name: Install Jekyll and dependencies
         run: |
-          sudo apt-get install ruby-full build-essential zlib1g-dev
-          echo '# Install Ruby Gems to ~/gems' >> ~/.bashrc
-          echo 'export GEM_HOME="$HOME/gems"' >> ~/.bashrc
-          echo 'export PATH="$HOME/gems/bin:$PATH"' >> ~/.bashrc
-          source ~/.bashrc
+          sudo apt-get update
+          sudo apt-get install -y ruby-dev zlib1g-dev
           gem install jekyll bundler
+
+      - name: Build Jekyll site
+        run: bundle exec jekyll build
           
       - name: Run Build and Create folder
         run: |
-          jekyll build
           mkdir _gh_pages
           echo "Job: ${{ job.name }} Build: ${{ env.BUILD_NUMBER }}" > _gh_pages/version.txt
       - name: Sync files with S3
