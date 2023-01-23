@@ -17,27 +17,27 @@ jobs:
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: eu-central-1
           
-      - name: Clone repository
-        run: git clone https://github.com/twbs/bootstrap.git
-        
-      - name: Set up Ruby
+      - name: Setup Ruby
         run: |
           sudo apt-get update
           sudo apt-get install -y ruby ruby-dev
-          sudo gem install bundler
-
-      - name: Install Jekyll and dependencies
+          gem install bundler
+    
+      - name: Install dependencies
         run: |
-          sudo apt-get update
-          sudo apt-get install -y ruby-dev zlib1g-dev
           bundle install
-
-      - name: Build Jekyll site
-        run: bundle exec jekyll build
           
-      - name: Run Build and Create folder
+      - name: Clone repository
+        run: git clone https://github.com/twbs/bootstrap.git
+      
+      - name: Build Jekyll site
+        run: |
+          bundle exec jekyll build
+        
+      - name: Create folder
         run: |
           mkdir _gh_pages
           echo "Job: ${{ job.name }} Build: ${{ env.BUILD_NUMBER }}" > _gh_pages/version.txt
+      
       - name: Sync files with S3
         run: aws s3 sync . s3://github-action-demo-007
