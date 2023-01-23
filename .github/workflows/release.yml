@@ -1,5 +1,5 @@
 ---
-name: CI/CD Job 1
+name: CI/CD Job
 on:
   push:
     branches:
@@ -10,44 +10,29 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v2
-          
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v1
         with:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-region: "eu-central-1"   
-      
-      - name: Clone Bootstrap
-        run: git clone https://github.com/twbs/bootstrap.git  
+          aws-region: eu-central-1
+          
+      - name: Clone repository
+        run: git clone https://github.com/twbs/bootstrap.git
         
-      - name: Install dependencies
+      - name: Install Ruby, RubyGems, and Jekyll
         run: |
-          sudo apt-get update
-          sudo apt-get install -y build-essential ruby-dev zlib1g-dev liblzma-dev
+          sudo apt-get install ruby-full build-essential zlib1g-dev
+          echo '# Install Ruby Gems to ~/gems' >> ~/.bashrc
+          echo 'export GEM_HOME="$HOME/gems"' >> ~/.bashrc
+          echo 'export PATH="$HOME/gems/bin:$PATH"' >> ~/.bashrc
+          source ~/.bashrc
+          gem install jekyll bundler
           
-      - name: Update Ruby
+      - name: Run Build and Create folder
         run: |
-          sudo apt-get install -y ruby-full
-          ruby -v
-          
-      - name: Install Jekyll and its dependencies
-        run: |
-          gem install jekyll bundler    
-      
-      
-        
-      - name: Build the site
-        run: |
-          bundle install
-          bundle exec jekyll build
-          
-      - name: Create folder
-        run: |
+          jekyll build
           mkdir _gh_pages
           echo "Job: ${{ job.name }} Build: ${{ env.BUILD_NUMBER }}" > _gh_pages/version.txt
-          
       - name: Sync files with S3
         run: aws s3 sync . s3://github-action-demo-007
-
-
